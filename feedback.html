@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Đánh giá dịch vụ WiFi</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+</head>
+<body class="bg-gray-100">
+  <div class="max-w-2xl mx-auto mt-8 p-6 bg-white rounded-xl shadow-lg">
+    <!-- Logo và tiêu đề -->
+    <div class="text-center mb-6">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a6/Anonymous_emblem.svg/2048px-Anonymous_emblem.svg.png" alt="Logo" class="h-16 mx-auto mb-2">
+      <h2 class="text-2xl font-bold text-blue-600" data-i18n="title">Khảo sát mức độ hài lòng</h2>
+      <p class="text-sm text-gray-500" data-i18n="subtitle">Cảm ơn quý khách đã sử dụng dịch vụ cho thuê WiFi của chúng tôi!</p>
+    </div>
+
+    <!-- Ảnh thiết bị -->
+    <div class="flex justify-center mb-6">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/3/3b/Softbank_501HW_Mobile_WiFi_Router.jpg" alt="Thiết bị WiFi" class="h-40 rounded-lg shadow-md">
+    </div>
+
+    <form id="feedbackForm" class="space-y-5">
+      <!-- Câu hỏi -->
+      <div>
+        <label class="block font-medium text-gray-700" data-i18n="q1">1. Chất lượng WiFi như thế nào?</label>
+        <div class="space-y-1 mt-2">
+          <label class="flex items-center"><input type="radio" name="wifi_quality" value="Rất tốt" required class="mr-2"> Rất tốt</label>
+          <label class="flex items-center"><input type="radio" name="wifi_quality" value="Tốt" class="mr-2"> Tốt</label>
+          <label class="flex items-center"><input type="radio" name="wifi_quality" value="Trung bình" class="mr-2"> Trung bình</label>
+          <label class="flex items-center"><input type="radio" name="wifi_quality" value="Kém" class="mr-2"> Kém</label>
+        </div>
+      </div>
+
+      <div>
+        <label class="block font-medium text-gray-700" data-i18n="q2">2. Quá trình nhận/trả thiết bị có thuận tiện không?</label>
+        <div class="space-y-1 mt-2">
+          <label class="flex items-center"><input type="radio" name="delivery_process" value="Rất thuận tiện" required class="mr-2"> Rất thuận tiện</label>
+          <label class="flex items-center"><input type="radio" name="delivery_process" value="Bình thường" class="mr-2"> Bình thường</label>
+          <label class="flex items-center"><input type="radio" name="delivery_process" value="Khó khăn" class="mr-2"> Khó khăn</label>
+        </div>
+      </div>
+
+      <div>
+        <label class="block font-medium text-gray-700" data-i18n="q3">3. Quý khách có gặp sự cố kỹ thuật nào không?</label>
+        <div class="space-y-1 mt-2">
+          <label class="flex items-center"><input type="radio" name="technical_issue" value="Không" required class="mr-2"> Không</label>
+          <label class="flex items-center"><input type="radio" name="technical_issue" value="Có" class="mr-2"> Có</label>
+        </div>
+      </div>
+
+      <div>
+        <label class="block font-medium text-gray-700" data-i18n="q4">4. Quý khách có giới thiệu dịch vụ cho người khác không?</label>
+        <div class="space-y-1 mt-2">
+          <label class="flex items-center"><input type="radio" name="recommend" value="Chắc chắn có" required class="mr-2"> Chắc chắn có</label>
+          <label class="flex items-center"><input type="radio" name="recommend" value="Có thể" class="mr-2"> Có thể</label>
+          <label class="flex items-center"><input type="radio" name="recommend" value="Không" class="mr-2"> Không</label>
+        </div>
+      </div>
+
+      <!-- Góp ý -->
+      <div>
+        <label class="block font-medium text-gray-700" data-i18n="q5">5. Góp ý thêm (nếu có):</label>
+        <textarea name="comment" rows="4" class="w-full p-3 border border-gray-300 rounded-lg mt-2" placeholder="Ý kiến của bạn..."></textarea>
+      </div>
+
+      <!-- Google reCAPTCHA -->
+      <div class="g-recaptcha" data-sitekey="YOUR_RECAPTCHA_SITE_KEY"></div>
+
+      <!-- Nút Gửi -->
+      <div class="text-center">
+        <button type="submit" class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition" data-i18n="submit">Gửi phản hồi</button>
+      </div>
+
+      <!-- Trạng thái -->
+      <p id="status" class="text-center text-green-600 mt-4 font-medium"></p>
+    </form>
+
+    <!-- Đổi ngôn ngữ -->
+    <div class="text-center mt-6">
+      <button onclick="setLang('vi')" class="text-sm text-gray-600 hover:underline mr-3">🇻🇳 Tiếng Việt</button>
+      <button onclick="setLang('en')" class="text-sm text-gray-600 hover:underline">🇬🇧 English</button>
+    </div>
+  </div>
+
+  <script>
+    const translations = {
+      vi: {
+        title: "Khảo sát mức độ hài lòng",
+        subtitle: "Cảm ơn quý khách đã sử dụng dịch vụ cho thuê WiFi của chúng tôi!",
+        q1: "1. Chất lượng WiFi như thế nào?",
+        q2: "2. Quá trình nhận/trả thiết bị có thuận tiện không?",
+        q3: "3. Quý khách có gặp sự cố kỹ thuật nào không?",
+        q4: "4. Quý khách có giới thiệu dịch vụ cho người khác không?",
+        q5: "5. Góp ý thêm (nếu có):",
+        submit: "Gửi phản hồi"
+      },
+      en: {
+        title: "Customer Satisfaction Survey",
+        subtitle: "Thank you for using our portable WiFi rental service!",
+        q1: "1. How do you rate the WiFi quality?",
+        q2: "2. Was the pickup/return process convenient?",
+        q3: "3. Did you encounter any technical issues?",
+        q4: "4. Would you recommend our service to others?",
+        q5: "5. Additional feedback (optional):",
+        submit: "Submit feedback"
+      }
+    };
+
+    function setLang(lang) {
+      document.querySelectorAll("[data-i18n]").forEach(el => {
+        const key = el.getAttribute("data-i18n");
+        el.textContent = translations[lang][key];
+      });
+    }
+
+    // Mặc định Tiếng Việt
+    setLang('vi');
+
+    const form = document.getElementById("feedbackForm");
+    const status = document.getElementById("status");
+
+    form.addEventListener("submit", function(e) {
+      e.preventDefault();
+      status.innerText = "⏳ Đang gửi phản hồi...";
+
+      const recaptchaResponse = grecaptcha.getResponse();
+      if (!recaptchaResponse) {
+        status.innerText = "⚠️ Vui lòng xác minh reCAPTCHA.";
+        return;
+      }
+
+      const formData = new FormData(form);
+      const data = {};
+      formData.forEach((value, key) => data[key] = value);
+      data.recaptcha = recaptchaResponse;
+
+      fetch("https://script.google.com/macros/s/AKfycbz-Xa3w0Hvks2jC31HEvncrW0hw8j8y4vdY_qxbBfkAaLnYRuKxfsIzF9kuutOMYDVo/exec", {
+        method: "POST",
+        mode: "no-cors",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data)
+      });
+
+      form.reset();
+      grecaptcha.reset();
+      status.innerText = "🎉 Cảm ơn bạn đã gửi phản hồi!";
+    });
+  </script>
+</body>
+</html>
