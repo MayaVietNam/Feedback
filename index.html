@@ -3,149 +3,440 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Đánh giá dịch vụ WiFi</title>
+  <title>Phản hồi dịch vụ WiFi - MAYA VIETNAM</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <!-- SCRIPT CỦA GOOGLE RECAPTCHA -->
   <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+  <style>
+    .star-rating { display: flex; flex-direction: row-reverse; justify-content: center; gap: 0.25rem; }
+    .star-rating input[type="radio"] { display: none; }
+    .star-rating label { font-size: 2.5rem; color: #d1d5db; cursor: pointer; transition: color 0.2s; }
+    .star-rating label:hover, .star-rating label:hover ~ label, .star-rating input[type="radio"]:checked ~ label { color: #f59e0b; }
+    .lang-btn { transition: all 0.2s; }
+    .lang-btn.active { background-color: #2563eb; color: white; font-weight: bold; }
+    /* Căn giữa hộp reCAPTCHA */
+    .g-recaptcha { display: flex; justify-content: center; }
+  </style>
 </head>
-<body class="bg-gray-100">
-  <div class="max-w-2xl mx-auto mt-8 p-6 bg-white rounded-xl shadow-lg">
-    <!-- Logo và tiêu đề -->
-    <div class="text-center mb-6">
-      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a6/Anonymous_emblem.svg/2048px-Anonymous_emblem.svg.png" alt="Logo" class="h-16 mx-auto mb-2">
-      <h2 class="text-2xl font-bold text-blue-600" data-i18n="title">Khảo sát mức độ hài lòng</h2>
-      <p class="text-sm text-gray-500" data-i18n="subtitle">Cảm ơn quý khách đã sử dụng dịch vụ cho thuê WiFi của chúng tôi!</p>
-    </div>
-
-    <!-- Ảnh thiết bị -->
-    <div class="flex justify-center mb-6">
-      <img src="https://upload.wikimedia.org/wikipedia/commons/3/3b/Softbank_501HW_Mobile_WiFi_Router.jpg" alt="Thiết bị WiFi" class="h-40 rounded-lg shadow-md">
-    </div>
-
-    <form id="feedbackForm" class="space-y-5">
-      <!-- Câu hỏi -->
-      <div>
-        <label class="block font-medium text-gray-700" data-i18n="q1">1. Chất lượng WiFi như thế nào?</label>
-        <div class="space-y-1 mt-2">
-          <label class="flex items-center"><input type="radio" name="wifi_quality" value="Rất tốt" required class="mr-2"> Rất tốt</label>
-          <label class="flex items-center"><input type="radio" name="wifi_quality" value="Tốt" class="mr-2"> Tốt</label>
-          <label class="flex items-center"><input type="radio" name="wifi_quality" value="Trung bình" class="mr-2"> Trung bình</label>
-          <label class="flex items-center"><input type="radio" name="wifi_quality" value="Kém" class="mr-2"> Kém</label>
-        </div>
-      </div>
-
-      <div>
-        <label class="block font-medium text-gray-700" data-i18n="q2">2. Quá trình nhận/trả thiết bị có thuận tiện không?</label>
-        <div class="space-y-1 mt-2">
-          <label class="flex items-center"><input type="radio" name="delivery_process" value="Rất thuận tiện" required class="mr-2"> Rất thuận tiện</label>
-          <label class="flex items-center"><input type="radio" name="delivery_process" value="Bình thường" class="mr-2"> Bình thường</label>
-          <label class="flex items-center"><input type="radio" name="delivery_process" value="Khó khăn" class="mr-2"> Khó khăn</label>
-        </div>
-      </div>
-
-      <div>
-        <label class="block font-medium text-gray-700" data-i18n="q3">3. Quý khách có gặp sự cố kỹ thuật nào không?</label>
-        <div class="space-y-1 mt-2">
-          <label class="flex items-center"><input type="radio" name="technical_issue" value="Không" required class="mr-2"> Không</label>
-          <label class="flex items-center"><input type="radio" name="technical_issue" value="Có" class="mr-2"> Có</label>
-        </div>
-      </div>
-
-      <div>
-        <label class="block font-medium text-gray-700" data-i18n="q4">4. Quý khách có giới thiệu dịch vụ cho người khác không?</label>
-        <div class="space-y-1 mt-2">
-          <label class="flex items-center"><input type="radio" name="recommend" value="Chắc chắn có" required class="mr-2"> Chắc chắn có</label>
-          <label class="flex items-center"><input type="radio" name="recommend" value="Có thể" class="mr-2"> Có thể</label>
-          <label class="flex items-center"><input type="radio" name="recommend" value="Không" class="mr-2"> Không</label>
-        </div>
-      </div>
-
-      <!-- Góp ý -->
-      <div>
-        <label class="block font-medium text-gray-700" data-i18n="q5">5. Góp ý thêm (nếu có):</label>
-        <textarea name="comment" rows="4" class="w-full p-3 border border-gray-300 rounded-lg mt-2" placeholder="Ý kiến của bạn..."></textarea>
-      </div>
-
-      <!-- Google reCAPTCHA -->
-      <div class="g-recaptcha" data-sitekey="6LdIv3orAAAAAAkeWtkzNLpqPP7RvBQOXloN0-84"></div>
-
-      <!-- Nút Gửi -->
-      <div class="text-center">
-        <button type="submit" class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition" data-i18n="submit">Gửi phản hồi</button>
-      </div>
-
-      <!-- Trạng thái -->
-      <p id="status" class="text-center text-green-600 mt-4 font-medium"></p>
-    </form>
-
-    <!-- Đổi ngôn ngữ -->
-    <div class="text-center mt-6">
-      <button onclick="setLang('vi')" class="text-sm text-gray-600 hover:underline mr-3">🇻🇳 Tiếng Việt</button>
-      <button onclick="setLang('en')" class="text-sm text-gray-600 hover:underline">🇬🇧 English</button>
+<body class="bg-gray-100 font-sans">
+  <!-- BỘ CHUYỂN ĐỔI NGÔN NGỮ -->
+  <div class="max-w-2xl mx-auto mt-4 text-right pr-4">
+    <div class="inline-flex rounded-md shadow-sm" role="group">
+      <button type="button" id="lang-vi" class="lang-btn px-4 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-l-lg hover:bg-gray-100 focus:z-10 focus:ring-2 focus:ring-blue-700">VI</button>
+      <button type="button" id="lang-en" class="lang-btn px-4 py-2 text-sm font-medium text-gray-900 bg-white border-t border-b border-gray-200 hover:bg-gray-100 focus:z-10 focus:ring-2 focus:ring-blue-700">EN</button>
+      <button type="button" id="lang-ja" class="lang-btn px-4 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-r-md hover:bg-gray-100 focus:z-10 focus:ring-2 focus:ring-blue-700">JA</button>
     </div>
   </div>
 
+  <div class="max-w-2xl mx-auto mt-2 mb-8 p-6 sm:p-8 bg-white rounded-xl shadow-lg">
+    <div class="text-center mb-6">
+      <img src="https://i.postimg.cc/yd4v4YHG/EZ-LOGO-31.png" alt="Logo Công ty" class="h-20 mx-auto mb-3">
+      <h2 class="text-2xl font-bold text-blue-600" data-lang-key="title">Khảo sát mức độ hài lòng</h2>
+      <p class="text-sm text-gray-500" data-lang-key="subtitle">Cảm ơn quý khách đã sử dụng dịch vụ cho thuê WiFi của chúng tôi!</p>
+    </div>
+
+    <form id="feedbackForm" class="space-y-6">
+      <!-- CÁC TRƯỜNG NHẬP LIỆU (GIỮ NGUYÊN) -->
+      <div>
+        <label for="email" class="block font-medium text-gray-700" data-lang-key="email_label">Email của bạn</label>
+        <input type="email" id="email" name="email" required class="w-full p-3 border border-gray-300 rounded-lg mt-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500" data-lang-key="email_placeholder" placeholder="vidu@email.com">
+      </div>
+      
+      <div>
+        <label for="usage_area" class="block font-medium text-gray-700" data-lang-key="usage_area_label">Quý khách đã sử dụng dịch vụ tại quốc gia nào?</label>
+        <input type="text" id="usage_area" name="usage_area" required class="w-full p-3 border border-gray-300 rounded-lg mt-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500" data-lang-key="usage_area_placeholder" placeholder="Ví dụ: Nhật Bản, Hàn Quốc...">
+      </div>
+
+      <div>
+        <label class="block font-medium text-gray-700" data-lang-key="q_wifi_quality">1. Chất lượng WiFi như thế nào?</label>
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 mt-2">
+          <label class="flex items-center p-3 border rounded-lg hover:bg-gray-50 cursor-pointer"><input type="radio" name="wifi_quality" value="Rất tốt" required class="mr-2"><span data-lang-key="option_very_good">Rất tốt</span></label>
+          <label class="flex items-center p-3 border rounded-lg hover:bg-gray-50 cursor-pointer"><input type="radio" name="wifi_quality" value="Tốt" class="mr-2"><span data-lang-key="option_good">Tốt</span></label>
+          <label class="flex items-center p-3 border rounded-lg hover:bg-gray-50 cursor-pointer"><input type="radio" name="wifi_quality" value="Trung bình" class="mr-2"><span data-lang-key="option_average">Trung bình</span></label>
+          <label class="flex items-center p-3 border rounded-lg hover:bg-gray-50 cursor-pointer"><input type="radio" name="wifi_quality" value="Kém" class="mr-2"><span data-lang-key="option_poor">Kém</span></label>
+        </div>
+      </div>
+      
+      <div>
+        <label class="block font-medium text-gray-700" data-lang-key="q_price">2. Bạn đánh giá thế nào về giá sản phẩm?</label>
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 mt-2">
+          <label class="flex items-center p-3 border rounded-lg hover:bg-gray-50 cursor-pointer"><input type="radio" name="price_rating" value="Rất hợp lý" required class="mr-2"><span data-lang-key="option_very_reasonable">Rất hợp lý</span></label>
+          <label class="flex items-center p-3 border rounded-lg hover:bg-gray-50 cursor-pointer"><input type="radio" name="price_rating" value="Hợp lý" class="mr-2"><span data-lang-key="option_reasonable">Hợp lý</span></label>
+          <label class="flex items-center p-3 border rounded-lg hover:bg-gray-50 cursor-pointer"><input type="radio" name="price_rating" value="Hơi cao" class="mr-2"><span data-lang-key="option_a_bit_high">Hơi cao</span></label>
+          <label class="flex items-center p-3 border rounded-lg hover:bg-gray-50 cursor-pointer"><input type="radio" name="price_rating" value="Cao" class="mr-2"><span data-lang-key="option_high">Cao</span></label>
+        </div>
+      </div>
+      
+      <div>
+        <label class="block font-medium text-gray-700" data-lang-key="q_service_vs_price">3. Chất lượng phục vụ so với giá cả?</label>
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 mt-2">
+          <label class="flex items-center p-3 border rounded-lg hover:bg-gray-50 cursor-pointer"><input type="radio" name="service_vs_price" value="Vượt mong đợi" required class="mr-2"><span data-lang-key="option_exceeds">Vượt mong đợi</span></label>
+          <label class="flex items-center p-3 border rounded-lg hover:bg-gray-50 cursor-pointer"><input type="radio" name="service_vs_price" value="Tương xứng" class="mr-2"><span data-lang-key="option_matches">Tương xứng</span></label>
+          <label class="flex items-center p-3 border rounded-lg hover:bg-gray-50 cursor-pointer"><input type="radio" name="service_vs_price" value="Chưa tương xứng" class="mr-2"><span data-lang-key="option_not_match">Chưa tương xứng</span></label>
+        </div>
+      </div>
+
+      <div>
+        <label class="block font-medium text-gray-700" data-lang-key="q_delivery">4. Nhận/trả thiết bị có thuận tiện không?</label>
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 mt-2">
+          <label class="flex items-center p-3 border rounded-lg hover:bg-gray-50 cursor-pointer"><input type="radio" name="delivery_process" value="Rất thuận tiện" required class="mr-2"><span data-lang-key="option_very_convenient">Rất thuận tiện</span></label>
+          <label class="flex items-center p-3 border rounded-lg hover:bg-gray-50 cursor-pointer"><input type="radio" name="delivery_process" value="Bình thường" class="mr-2"><span data-lang-key="option_normal">Bình thường</span></label>
+          <label class="flex items-center p-3 border rounded-lg hover:bg-gray-50 cursor-pointer"><input type="radio" name="delivery_process" value="Khó khăn" class="mr-2"><span data-lang-key="option_difficult">Khó khăn</span></label>
+        </div>
+      </div>
+
+      <div>
+        <label class="block font-medium text-gray-700" data-lang-key="q_tech_issue">5. Quý khách có gặp sự cố kỹ thuật không?</label>
+        <div class="flex space-x-4 mt-2">
+          <label class="flex items-center cursor-pointer"><input type="radio" name="technical_issue" value="Không" required class="mr-2"><span data-lang-key="option_no">Không</span></label>
+          <label class="flex items-center cursor-pointer"><input type="radio" name="technical_issue" value="Có" class="mr-2"><span data-lang-key="option_yes">Có</span></label>
+        </div>
+      </div>
+
+      <div id="technicalIssuesDetails" class="hidden pl-6 border-l-2 border-blue-200 space-y-3">
+        <label class="block font-medium text-gray-600 text-sm" data-lang-key="tech_issue_prompt">Vui lòng cho biết vấn đề bạn gặp phải:</label>
+        <div class="space-y-2">
+            <label class="flex items-center cursor-pointer"><input type="checkbox" name="issue_detail" value="Tốc độ chậm" class="mr-2"><span data-lang-key="issue_slow">Tốc độ chậm</span></label>
+            <label class="flex items-center cursor-pointer"><input type="checkbox" name="issue_detail" value="Mất kết nối" class="mr-2"><span data-lang-key="issue_disconnect">Mất kết nối thường xuyên</span></label>
+            <label class="flex items-center cursor-pointer"><input type="checkbox" name="issue_detail" value="Không kết nối được" class="mr-2"><span data-lang-key="issue_no_connect">Không kết nối được ban đầu</span></label>
+            <label class="flex items-center cursor-pointer"><input type="checkbox" name="issue_detail" value="Thiết bị không lên nguồn" class="mr-2"><span data-lang-key="issue_no_power">Thiết bị không lên nguồn / Sạc không vào</span></label>
+            <div>
+              <label class="flex items-center cursor-pointer"><input type="checkbox" id="other_issue_checkbox" class="mr-2"><span data-lang-key="issue_other">Khác (vui lòng ghi rõ):</span></label>
+              <textarea name="issue_detail_other" rows="2" class="w-full p-2 border rounded-lg mt-1" data-lang-key="issue_other_placeholder" placeholder="Mô tả sự cố khác..."></textarea>
+            </div>
+        </div>
+      </div>
+
+      <div>
+        <label class="block font-medium text-gray-700" data-lang-key="q_recommend">6. Quý khách có giới thiệu dịch vụ cho người khác không?</label>
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 mt-2">
+          <label class="flex items-center p-3 border rounded-lg hover:bg-gray-50 cursor-pointer"><input type="radio" name="recommend" value="Chắc chắn có" required class="mr-2"><span data-lang-key="option_recommend_yes">Chắc chắn có</span></label>
+          <label class="flex items-center p-3 border rounded-lg hover:bg-gray-50 cursor-pointer"><input type="radio" name="recommend" value="Có thể" class="mr-2"><span data-lang-key="option_recommend_maybe">Có thể</span></label>
+          <label class="flex items-center p-3 border rounded-lg hover:bg-gray-50 cursor-pointer"><input type="radio" name="recommend" value="Không" class="mr-2"><span data-lang-key="option_recommend_no">Không</span></label>
+        </div>
+      </div>
+
+      <div>
+        <label class="block font-medium text-gray-700 text-center mb-2" data-lang-key="q_overall_rating">7. Đánh giá chung về dịch vụ của chúng tôi:</label>
+        <div class="star-rating">
+          <input type="radio" id="star5" name="rating" value="5" required/><label for="star5" title="5 sao">★</label>
+          <input type="radio" id="star4" name="rating" value="4"/><label for="star4" title="4 sao">★</label>
+          <input type="radio" id="star3" name="rating" value="3"/><label for="star3" title="3 sao">★</label>
+          <input type="radio" id="star2" name="rating" value="2"/><label for="star2" title="2 sao">★</label>
+          <input type="radio" id="star1" name="rating" value="1"/><label for="star1" title="1 sao">★</label>
+        </div>
+      </div>
+      
+      <div>
+        <label class="block font-medium text-gray-700" data-lang-key="q_comment">8. Góp ý thêm (nếu có):</label>
+        <textarea name="comment" rows="4" class="w-full p-3 border rounded-lg mt-2" data-lang-key="comment_placeholder" placeholder="Ý kiến của bạn..."></textarea>
+      </div>
+
+      <!-- HỘP RECAPTCHA -->
+      <div class="g-recaptcha" data-sitekey="6LdIv3orAAAAAAkeWtkzNLpqPP7RvBQOXloN0-84"></div>
+      <!-- ^^^ THAY THẾ YOUR_RECAPTCHA_SITE_KEY BẰNG KHÓA CỦA BẠN -->
+
+      <div class="text-center pt-4">
+        <button type="submit" class="bg-blue-600 text-white px-8 py-3 rounded-lg hover:bg-blue-700 transition-colors font-semibold text-lg" data-lang-key="submit_button">
+          Gửi phản hồi
+        </button>
+      </div>
+
+      <p id="status" class="text-center font-medium h-6"></p>
+    </form>
+  </div>
+
+  <footer class="bg-white text-gray-600 text-sm mt-8 py-6">
+    <div class="max-w-4xl mx-auto px-4">
+        <div class="text-center mb-4">
+            <h3 class="font-bold text-gray-800">CÔNG TY TNHH MAYA VIỆT NAM</h3>
+            <p class="text-xs text-gray-500">MAYA VIETNAM COMPANY LIMITED</p>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-center md:text-left">
+            <div>
+                <h4 class="font-semibold text-gray-700 mb-1" data-lang-key="footer_address">Địa chỉ</h4>
+                <p>Phòng 1630, tầng 16, tòa nhà Daeha Business Center, 360 Kim Mã, P. Ngọc Khánh, Q. Ba Đình, Hà Nội</p>
+                <p class="text-xs text-gray-500">Room 1630, 16th floor, Daeha Business Center, 360 Kim Ma, Ngoc Khanh Ward, Ba Dinh Dist., Hanoi</p>
+            </div>
+            <div>
+                <h4 class="font-semibold text-gray-700 mb-1" data-lang-key="footer_hotline">Hotline</h4>
+                <p><i class="fas fa-phone-alt mr-2"></i>0962 000 650 (<span data-lang-key="lang_vi">Tiếng Việt</span>)</p>
+                <p><i class="fas fa-phone-alt mr-2"></i>0365 399 288 (<span data-lang-key="lang_ja">Tiếng Nhật</span>)</p>
+            </div>
+        </div>
+    </div>
+  </footer>
+
   <script>
+    // --- DICTIONARY FOR LANGUAGES ---
     const translations = {
       vi: {
         title: "Khảo sát mức độ hài lòng",
         subtitle: "Cảm ơn quý khách đã sử dụng dịch vụ cho thuê WiFi của chúng tôi!",
-        q1: "1. Chất lượng WiFi như thế nào?",
-        q2: "2. Quá trình nhận/trả thiết bị có thuận tiện không?",
-        q3: "3. Quý khách có gặp sự cố kỹ thuật nào không?",
-        q4: "4. Quý khách có giới thiệu dịch vụ cho người khác không?",
-        q5: "5. Góp ý thêm (nếu có):",
-        submit: "Gửi phản hồi"
+        email_label: "Email của bạn",
+        email_placeholder: "vidu@email.com",
+        usage_area_label: "Quý khách đã sử dụng dịch vụ tại quốc gia nào?",
+        usage_area_placeholder: "Ví dụ: Nhật Bản, Hàn Quốc...",
+        q_wifi_quality: "1. Chất lượng WiFi như thế nào?",
+        option_very_good: "Rất tốt",
+        option_good: "Tốt",
+        option_average: "Trung bình",
+        option_poor: "Kém",
+        q_price: "2. Bạn đánh giá thế nào về giá sản phẩm?",
+        option_very_reasonable: "Rất hợp lý",
+        option_reasonable: "Hợp lý",
+        option_a_bit_high: "Hơi cao",
+        option_high: "Cao",
+        q_service_vs_price: "3. Chất lượng phục vụ so với giá cả?",
+        option_exceeds: "Vượt mong đợi",
+        option_matches: "Tương xứng",
+        option_not_match: "Chưa tương xứng",
+        q_delivery: "4. Nhận/trả thiết bị có thuận tiện không?",
+        option_very_convenient: "Rất thuận tiện",
+        option_normal: "Bình thường",
+        option_difficult: "Khó khăn",
+        q_tech_issue: "5. Quý khách có gặp sự cố kỹ thuật không?",
+        option_no: "Không",
+        option_yes: "Có",
+        tech_issue_prompt: "Vui lòng cho biết vấn đề bạn gặp phải (có thể chọn nhiều):",
+        issue_slow: "Tốc độ chậm",
+        issue_disconnect: "Mất kết nối thường xuyên",
+        issue_no_connect: "Không kết nối được ban đầu",
+        issue_no_power: "Thiết bị không lên nguồn / Sạc không vào",
+        issue_other: "Khác (vui lòng ghi rõ):",
+        issue_other_placeholder: "Mô tả sự cố khác...",
+        q_recommend: "6. Quý khách có giới thiệu dịch vụ cho người khác không?",
+        option_recommend_yes: "Chắc chắn có",
+        option_recommend_maybe: "Có thể",
+        option_recommend_no: "Không",
+        q_overall_rating: "7. Đánh giá chung về dịch vụ của chúng tôi:",
+        q_comment: "8. Góp ý thêm (nếu có):",
+        comment_placeholder: "Ý kiến của bạn...",
+        submit_button: "Gửi phản hồi",
+        footer_address: "Địa chỉ",
+        footer_hotline: "Hotline",
+        lang_vi: "Tiếng Việt",
+        lang_ja: "Tiếng Nhật",
+        status_sending: "⏳ Đang gửi phản hồi...",
+        status_success: "🎉 Cảm ơn bạn đã gửi phản hồi! Vui lòng kiểm tra email xác nhận.",
+        status_fail: "❌ Gửi phản hồi thất bại. Vui lòng thử lại.",
+        recaptcha_fail: "Vui lòng hoàn thành xác minh reCAPTCHA.",
       },
       en: {
-        title: "Customer Satisfaction Survey",
-        subtitle: "Thank you for using our portable WiFi rental service!",
-        q1: "1. How do you rate the WiFi quality?",
-        q2: "2. Was the pickup/return process convenient?",
-        q3: "3. Did you encounter any technical issues?",
-        q4: "4. Would you recommend our service to others?",
-        q5: "5. Additional feedback (optional):",
-        submit: "Submit feedback"
+        title: "Satisfaction Survey",
+        subtitle: "Thank you for using our WiFi rental service!",
+        email_label: "Your Email",
+        email_placeholder: "example@email.com",
+        usage_area_label: "In which country did you use the service?",
+        usage_area_placeholder: "E.g., Japan, South Korea...",
+        q_wifi_quality: "1. How was the WiFi quality?",
+        option_very_good: "Very Good",
+        option_good: "Good",
+        option_average: "Average",
+        option_poor: "Poor",
+        q_price: "2. How do you rate the product price?",
+        option_very_reasonable: "Very Reasonable",
+        option_reasonable: "Reasonable",
+        option_a_bit_high: "A bit high",
+        option_high: "High",
+        q_service_vs_price: "3. Service quality compared to the price?",
+        option_exceeds: "Exceeded expectations",
+        option_matches: "Matches expectations",
+        option_not_match: "Did not meet expectations",
+        q_delivery: "4. Was the device pickup/return process convenient?",
+        option_very_convenient: "Very Convenient",
+        option_normal: "Normal",
+        option_difficult: "Difficult",
+        q_tech_issue: "5. Did you experience any technical issues?",
+        option_no: "No",
+        option_yes: "Yes",
+        tech_issue_prompt: "Please specify the issue(s) you faced (multiple selections possible):",
+        issue_slow: "Slow speed",
+        issue_disconnect: "Frequent disconnection",
+        issue_no_connect: "Couldn't connect initially",
+        issue_no_power: "Device won't turn on / Not charging",
+        issue_other: "Other (please specify):",
+        issue_other_placeholder: "Describe the other issue...",
+        q_recommend: "6. Would you recommend our service to others?",
+        option_recommend_yes: "Definitely Yes",
+        option_recommend_maybe: "Maybe",
+        option_recommend_no: "No",
+        q_overall_rating: "7. Your overall rating of our service:",
+        q_comment: "8. Any additional comments?",
+        comment_placeholder: "Your feedback...",
+        submit_button: "Submit Feedback",
+        footer_address: "Address",
+        footer_hotline: "Hotline",
+        lang_vi: "Vietnamese",
+        lang_ja: "Japanese",
+        status_sending: "⏳ Sending feedback...",
+        status_success: "🎉 Thank you for your feedback! Please check your email for a confirmation.",
+        status_fail: "❌ Failed to send feedback. Please try again.",
+        recaptcha_fail: "Please complete the reCAPTCHA verification.",
+      },
+      ja: {
+        title: "満足度アンケート",
+        subtitle: "WiFiレンタルサービスをご利用いただき、誠にありがとうございます！",
+        email_label: "メールアドレス",
+        email_placeholder: "example@email.com",
+        usage_area_label: "どちらの国でサービスを利用しましたか？",
+        usage_area_placeholder: "例：日本、韓国など",
+        q_wifi_quality: "1. WiFiの品質はいかがでしたか？",
+        option_very_good: "非常に良い",
+        option_good: "良い",
+        option_average: "普通",
+        option_poor: "悪い",
+        q_price: "2. 製品価格についてどう思いますか？",
+        option_very_reasonable: "非常に手頃",
+        option_reasonable: "手頃",
+        option_a_bit_high: "少し高い",
+        option_high: "高い",
+        q_service_vs_price: "3. 価格に対するサービスの質は？",
+        option_exceeds: "期待以上",
+        option_matches: "期待通り",
+        option_not_match: "期待以下",
+        q_delivery: "4. 端末の受け取り・返却は便利でしたか？",
+        option_very_convenient: "非常に便利",
+        option_normal: "普通",
+        option_difficult: "不便",
+        q_tech_issue: "5. 技術的な問題はありましたか？",
+        option_no: "いいえ",
+        option_yes: "はい",
+        tech_issue_prompt: "発生した問題を選択してください（複数選択可）：",
+        issue_slow: "速度が遅い",
+        issue_disconnect: "頻繁に切断される",
+        issue_no_connect: "最初に接続できなかった",
+        issue_no_power: "電源が入らない・充電できない",
+        issue_other: "その他（具体的にご記入ください）：",
+        issue_other_placeholder: "その他の問題について説明してください...",
+        q_recommend: "6. 私たちのサービスを他の人に勧めますか？",
+        option_recommend_yes: "ぜひ勧めたい",
+        option_recommend_maybe: "多分",
+        option_recommend_no: "勧めない",
+        q_overall_rating: "7. 当社サービスの総合評価：",
+        q_comment: "8. その他のご意見・ご感想:",
+        comment_placeholder: "ご意見をお聞かせください...",
+        submit_button: "送信する",
+        footer_address: "住所",
+        footer_hotline: "ホットライン",
+        lang_vi: "ベトナム語",
+        lang_ja: "日本語",
+        status_sending: "⏳ フィードバックを送信中...",
+        status_success: "🎉 ご意見ありがとうございます！確認メールをご確認ください。",
+        status_fail: "❌ 送信に失敗しました。もう一度お試しください。",
+        recaptcha_fail: "reCAPTCHA認証を完了してください。",
       }
     };
 
-    function setLang(lang) {
-      document.querySelectorAll("[data-i18n]").forEach(el => {
-        const key = el.getAttribute("data-i18n");
-        el.textContent = translations[lang][key];
+    // --- LANGUAGE SWITCHER LOGIC ---
+    const setLanguage = (lang) => {
+      document.documentElement.lang = lang;
+      localStorage.setItem('language', lang);
+      
+      document.querySelectorAll('[data-lang-key]').forEach(el => {
+        const key = el.getAttribute('data-lang-key');
+        if (translations[lang][key]) {
+          if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
+            el.placeholder = translations[lang][key];
+          } else {
+            el.innerText = translations[lang][key];
+          }
+        }
       });
-    }
 
-    // Mặc định Tiếng Việt
-    setLang('vi');
+      document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
+      document.getElementById(`lang-${lang}`).classList.add('active');
+    };
 
+    document.getElementById('lang-vi').addEventListener('click', () => setLanguage('vi'));
+    document.getElementById('lang-en').addEventListener('click', () => setLanguage('en'));
+    document.getElementById('lang-ja').addEventListener('click', () => setLanguage('ja'));
+    
+    const savedLang = localStorage.getItem('language') || 'vi';
+    setLanguage(savedLang);
+
+
+    // --- FORM LOGIC ---
     const form = document.getElementById("feedbackForm");
     const status = document.getElementById("status");
 
+    const technicalIssueRadios = document.querySelectorAll('input[name="technical_issue"]');
+    const technicalIssuesDetails = document.getElementById('technicalIssuesDetails');
+    technicalIssueRadios.forEach(radio => {
+      radio.addEventListener('change', function() {
+        if (this.value === 'Có') {
+          technicalIssuesDetails.classList.remove('hidden');
+        } else {
+          technicalIssuesDetails.classList.add('hidden');
+        }
+      });
+    });
+    
+    const otherIssueText = document.querySelector('textarea[name="issue_detail_other"]');
+    const otherIssueCheckbox = document.getElementById('other_issue_checkbox');
+    otherIssueText.addEventListener('input', function() {
+        if(this.value.trim() !== '') { otherIssueCheckbox.checked = true; }
+    });
+
+
     form.addEventListener("submit", function(e) {
       e.preventDefault();
-      status.innerText = "⏳ Đang gửi phản hồi...";
-
+      const lang = localStorage.getItem('language') || 'vi';
+      
+      // KIỂM TRA RECAPTCHA TRƯỚC KHI GỬI
       const recaptchaResponse = grecaptcha.getResponse();
-      if (!recaptchaResponse) {
-        status.innerText = "⚠️ Vui lòng xác minh reCAPTCHA.";
+      if (recaptchaResponse.length === 0) {
+        status.innerText = translations[lang].recaptcha_fail;
+        status.className = "text-center font-medium h-6 text-red-600";
         return;
       }
+      
+      status.innerText = translations[lang].status_sending;
+      status.className = "text-center font-medium h-6 text-blue-600";
 
       const formData = new FormData(form);
       const data = {};
-      formData.forEach((value, key) => data[key] = value);
-      data.recaptcha = recaptchaResponse;
-
-      fetch("https://script.google.com/macros/s/AKfycbz-Xa3w0Hvks2jC31HEvncrW0hw8j8y4vdY_qxbBfkAaLnYRuKxfsIzF9kuutOMYDVo/exec", {
-        method: "POST",
-        mode: "no-cors",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data)
+      
+      formData.forEach((value, key) => { data[key] = value; });
+      
+      const issueDetails = [];
+      document.querySelectorAll('input[name="issue_detail"]:checked').forEach(checkbox => {
+        issueDetails.push(checkbox.value);
       });
+      const otherDetail = formData.get('issue_detail_other');
+      if (otherDetail && otherDetail.trim() !== '' && otherIssueCheckbox.checked) {
+        issueDetails.push(`Khác: ${otherDetail.trim()}`);
+      }
+      data['technical_issue_details'] = issueDetails.join('; ');
+      data['language'] = lang;
+      // Thêm token reCAPTCHA vào dữ liệu gửi đi
+      data['g-recaptcha-response'] = recaptchaResponse;
 
-      form.reset();
-      grecaptcha.reset();
-      status.innerText = "🎉 Cảm ơn bạn đã gửi phản hồi!";
+      const url = "https://script.google.com/macros/s/AKfycbz-Xa3w0Hvks2jC31HEvncrW0hw8j8y4vdY_qxbBfkAaLnYRuKxfsIzF9kuutOMYDVo/exec";
+
+      fetch(url, {
+        method: "POST",
+        mode: 'no-cors',
+        cache: 'no-cache',
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      })
+      .then(() => {
+          form.reset();
+          grecaptcha.reset(); // Reset reCAPTCHA sau khi gửi thành công
+          technicalIssuesDetails.classList.add('hidden');
+          status.innerText = translations[lang].status_success;
+          status.className = "text-center font-medium h-6 text-green-600";
+          document.querySelectorAll('.star-rating input[type="radio"]').forEach(radio => radio.checked = false);
+          setLanguage(lang);
+      })
+      .catch(err => {
+          status.innerText = translations[lang].status_fail;
+          status.className = "text-center font-medium h-6 text-red-600";
+          grecaptcha.reset(); // Reset reCAPTCHA khi có lỗi
+          console.error(err);
+      });
     });
   </script>
 </body>
