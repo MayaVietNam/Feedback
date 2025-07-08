@@ -37,7 +37,7 @@
     </div>
 
     <form id="feedbackForm" class="space-y-6">
-      <!-- CÁC TRƯỜNG NHẬP LIỆU -->
+      <!-- CÁC TRƯỜNG NHẬP LIỆU (GIỮ NGUYÊN) -->
       <div>
         <label for="email" class="block font-medium text-gray-700" data-lang-key="email_label">Email của bạn</label>
         <input type="email" id="email" name="email" required class="w-full p-3 border border-gray-300 rounded-lg mt-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500" data-lang-key="email_placeholder" placeholder="vidu@email.com">
@@ -421,30 +421,31 @@
       status.className = "text-center font-medium h-6 text-blue-600";
       submitButton.disabled = true;
 
-      const formData = new FormData(form);
-      const data = {};
+      // Tạo đối tượng FormData từ biểu mẫu
+      const requestFormData = new FormData(form);
       
-      formData.forEach((value, key) => { data[key] = value; });
-      
+      // Xử lý và thêm các trường dữ liệu đặc biệt
       const issueDetails = [];
       document.querySelectorAll('input[name="issue_detail"]:checked').forEach(checkbox => {
         issueDetails.push(checkbox.value);
       });
-      const otherDetail = formData.get('issue_detail_other');
-      if (otherDetail && otherDetail.trim() !== '' && otherIssueCheckbox.checked) {
+      const otherDetail = requestFormData.get('issue_detail_other');
+      if (otherDetail && otherDetail.trim() !== '') {
         issueDetails.push(`Khác: ${otherDetail.trim()}`);
       }
-      data['technical_issue_details'] = issueDetails.join('; ');
-      data['language'] = lang;
-      data['g-recaptcha-response'] = recaptchaResponse;
-
+      requestFormData.set('technical_issue_details', issueDetails.join('; '));
+      requestFormData.append('language', lang);
+      
+      // Xóa các trường không cần thiết đã được tổng hợp
+      requestFormData.delete('issue_detail');
+      requestFormData.delete('issue_detail_other');
+      
       // *** IMPORTANT: REPLACE WITH YOUR GOOGLE APPS SCRIPT URL ***
       const url = "https://script.google.com/macros/s/AKfycbylHCes-0UOFDJ6ZOu7-qYCE_5szKSNQ3AxaZXzpC2n7ghX5Y5sAXQjwI23PjKWBSw/exec";
 
       fetch(url, {
         method: "POST",
-        body: JSON.stringify(data),
-        headers: { "Content-Type": "application/json" },
+        body: requestFormData, // Gửi FormData trực tiếp
       })
       .then(response => response.json())
       .then(res => {
@@ -456,13 +457,14 @@
           document.querySelectorAll('.star-rating input[type="radio"]').forEach(radio => radio.checked = false);
           setLanguage(lang);
         } else {
-          throw new Error(res.message || 'Unknown error occurred.');
+          // Ném lỗi để khối .catch() xử lý
+          throw new Error(res.message || 'An unknown error occurred on the server.');
         }
       })
       .catch(err => {
           status.innerText = translations[lang].status_fail;
           status.className = "text-center font-medium h-6 text-red-600";
-          console.error(err);
+          console.error("Fetch Error:", err);
       })
       .finally(() => {
           grecaptcha.reset();
