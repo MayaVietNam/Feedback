@@ -37,7 +37,7 @@
     </div>
 
     <form id="feedbackForm" class="space-y-6">
-      <!-- CÁC TRƯỜNG NHẬP LIỆU (GIỮ NGUYÊN) -->
+      <!-- CÁC TRƯỜNG NHẬP LIỆU -->
       <div>
         <label for="email" class="block font-medium text-gray-700" data-lang-key="email_label">Email của bạn</label>
         <input type="email" id="email" name="email" required class="w-full p-3 border border-gray-300 rounded-lg mt-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500" data-lang-key="email_placeholder" placeholder="vidu@email.com">
@@ -129,7 +129,17 @@
       </div>
       
       <div>
-        <label class="block font-medium text-gray-700" data-lang-key="q_comment">8. Góp ý thêm (nếu có):</label>
+        <label class="block font-medium text-gray-700" data-lang-key="q_channel">8. Quý khách biết đến dịch vụ của chúng tôi qua kênh nào?</label>
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 mt-2">
+          <label class="flex items-center p-3 border rounded-lg hover:bg-gray-50 cursor-pointer"><input type="radio" name="channel" value="Facebook" required class="mr-2"><span data-lang-key="option_channel_facebook">Facebook</span></label>
+          <label class="flex items-center p-3 border rounded-lg hover:bg-gray-50 cursor-pointer"><input type="radio" name="channel" value="Google" class="mr-2"><span data-lang-key="option_channel_google">Google</span></label>
+          <label class="flex items-center p-3 border rounded-lg hover:bg-gray-50 cursor-pointer"><input type="radio" name="channel" value="Bạn bè giới thiệu" class="mr-2"><span data-lang-key="option_channel_friends">Bạn bè giới thiệu</span></label>
+          <label class="flex items-center p-3 border rounded-lg hover:bg-gray-50 cursor-pointer"><input type="radio" name="channel" value="Khác" class="mr-2"><span data-lang-key="option_channel_other">Khác</span></label>
+        </div>
+      </div>
+      
+      <div>
+        <label class="block font-medium text-gray-700" data-lang-key="q_comment">9. Góp ý thêm (nếu có):</label>
         <textarea name="comment" rows="4" class="w-full p-3 border rounded-lg mt-2" data-lang-key="comment_placeholder" placeholder="Ý kiến của bạn..."></textarea>
       </div>
 
@@ -138,7 +148,7 @@
       <!-- ^^^ THAY THẾ YOUR_RECAPTCHA_SITE_KEY BẰNG KHÓA CỦA BẠN -->
 
       <div class="text-center pt-4">
-        <button type="submit" class="bg-blue-600 text-white px-8 py-3 rounded-lg hover:bg-blue-700 transition-colors font-semibold text-lg" data-lang-key="submit_button">
+        <button type="submit" id="submitButton" class="bg-blue-600 text-white px-8 py-3 rounded-lg hover:bg-blue-700 transition-colors font-semibold text-lg" data-lang-key="submit_button">
           Gửi phản hồi
         </button>
       </div>
@@ -169,7 +179,7 @@
   </footer>
 
   <script>
-    // --- DICTIONARY FOR LANGUAGES ---
+    // --- DICTIONARY FOR LANGUAGES (No changes here) ---
     const translations = {
       vi: {
         title: "Khảo sát mức độ hài lòng",
@@ -211,7 +221,12 @@
         option_recommend_maybe: "Có thể",
         option_recommend_no: "Không",
         q_overall_rating: "7. Đánh giá chung về dịch vụ của chúng tôi:",
-        q_comment: "8. Góp ý thêm (nếu có):",
+        q_channel: "8. Quý khách biết đến dịch vụ của chúng tôi qua kênh nào?",
+        option_channel_facebook: "Facebook",
+        option_channel_google: "Google",
+        option_channel_friends: "Bạn bè giới thiệu",
+        option_channel_other: "Khác",
+        q_comment: "9. Góp ý thêm (nếu có):",
         comment_placeholder: "Ý kiến của bạn...",
         submit_button: "Gửi phản hồi",
         footer_address: "Địa chỉ",
@@ -263,7 +278,12 @@
         option_recommend_maybe: "Maybe",
         option_recommend_no: "No",
         q_overall_rating: "7. Your overall rating of our service:",
-        q_comment: "8. Any additional comments?",
+        q_channel: "8. How did you hear about our service?",
+        option_channel_facebook: "Facebook",
+        option_channel_google: "Google",
+        option_channel_friends: "Friend referral",
+        option_channel_other: "Other",
+        q_comment: "9. Any additional comments?",
         comment_placeholder: "Your feedback...",
         submit_button: "Submit Feedback",
         footer_address: "Address",
@@ -315,7 +335,12 @@
         option_recommend_maybe: "多分",
         option_recommend_no: "勧めない",
         q_overall_rating: "7. 当社サービスの総合評価：",
-        q_comment: "8. その他のご意見・ご感想:",
+        q_channel: "8. どのようして私たちのサービスを知りましたか？",
+        option_channel_facebook: "フェイスブック",
+        option_channel_google: "グーグル",
+        option_channel_friends: "友人からの紹介",
+        option_channel_other: "その他",
+        q_comment: "9. その他のご意見・ご感想:",
         comment_placeholder: "ご意見をお聞かせください...",
         submit_button: "送信する",
         footer_address: "住所",
@@ -360,6 +385,7 @@
     // --- FORM LOGIC ---
     const form = document.getElementById("feedbackForm");
     const status = document.getElementById("status");
+    const submitButton = document.getElementById("submitButton");
 
     const technicalIssueRadios = document.querySelectorAll('input[name="technical_issue"]');
     const technicalIssuesDetails = document.getElementById('technicalIssuesDetails');
@@ -384,7 +410,6 @@
       e.preventDefault();
       const lang = localStorage.getItem('language') || 'vi';
       
-      // KIỂM TRA RECAPTCHA TRƯỚC KHI GỬI
       const recaptchaResponse = grecaptcha.getResponse();
       if (recaptchaResponse.length === 0) {
         status.innerText = translations[lang].recaptcha_fail;
@@ -394,6 +419,7 @@
       
       status.innerText = translations[lang].status_sending;
       status.className = "text-center font-medium h-6 text-blue-600";
+      submitButton.disabled = true;
 
       const formData = new FormData(form);
       const data = {};
@@ -410,32 +436,37 @@
       }
       data['technical_issue_details'] = issueDetails.join('; ');
       data['language'] = lang;
-      // Thêm token reCAPTCHA vào dữ liệu gửi đi
       data['g-recaptcha-response'] = recaptchaResponse;
 
-      const url = "https://script.google.com/macros/s/AKfycbz-Xa3w0Hvks2jC31HEvncrW0hw8j8y4vdY_qxbBfkAaLnYRuKxfsIzF9kuutOMYDVo/exec";
+      // *** IMPORTANT: REPLACE WITH YOUR GOOGLE APPS SCRIPT URL ***
+      const url = "https://script.google.com/macros/s/AKfycbylHCes-0UOFDJ6ZOu7-qYCE_5szKSNQ3AxaZXzpC2n7ghX5Y5sAXQjwI23PjKWBSw/exec";
 
       fetch(url, {
         method: "POST",
-        mode: 'no-cors',
-        cache: 'no-cache',
-        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
+        headers: { "Content-Type": "application/json" },
       })
-      .then(() => {
+      .then(response => response.json())
+      .then(res => {
+        if (res.result === 'success') {
           form.reset();
-          grecaptcha.reset(); // Reset reCAPTCHA sau khi gửi thành công
           technicalIssuesDetails.classList.add('hidden');
           status.innerText = translations[lang].status_success;
           status.className = "text-center font-medium h-6 text-green-600";
           document.querySelectorAll('.star-rating input[type="radio"]').forEach(radio => radio.checked = false);
           setLanguage(lang);
+        } else {
+          throw new Error(res.message || 'Unknown error occurred.');
+        }
       })
       .catch(err => {
           status.innerText = translations[lang].status_fail;
           status.className = "text-center font-medium h-6 text-red-600";
-          grecaptcha.reset(); // Reset reCAPTCHA khi có lỗi
           console.error(err);
+      })
+      .finally(() => {
+          grecaptcha.reset();
+          submitButton.disabled = false;
       });
     });
   </script>
