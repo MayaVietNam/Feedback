@@ -14,163 +14,191 @@
     .star-rating label:hover, .star-rating label:hover ~ label, .star-rating input[type="radio"]:checked ~ label { color: #f59e0b; }
     .lang-btn { transition: all 0.2s; }
     .lang-btn.active { background-color: #2563eb; color: white; font-weight: bold; }
-    /* Center the reCAPTCHA box */
     .g-recaptcha { display: flex; justify-content: center; }
   </style>
 </head>
 <body class="bg-gray-100 font-sans">
-  <div class="max-w-2xl mx-auto mt-4 text-right pr-4">
-    <div class="inline-flex rounded-md shadow-sm" role="group">
-      <button type="button" id="lang-vi" class="lang-btn px-4 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-l-lg hover:bg-gray-100 focus:z-10 focus:ring-2 focus:ring-blue-700">VI</button>
-      <button type="button" id="lang-en" class="lang-btn px-4 py-2 text-sm font-medium text-gray-900 bg-white border-t border-b border-gray-200 hover:bg-gray-100 focus:z-10 focus:ring-2 focus:ring-blue-700">EN</button>
-      <button type="button" id="lang-ja" class="lang-btn px-4 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-r-md hover:bg-gray-100 focus:z-10 focus:ring-2 focus:ring-blue-700">JA</button>
-    </div>
+
+  <div class="flex justify-center gap-8 px-4">
+    
+    <aside class="hidden xl:block w-48 flex-shrink-0 pt-24">
+      <a href="https://global-ez.com/" target="_blank" class="block shadow-lg rounded-lg overflow-hidden hover:opacity-90 transition-opacity">
+        <img src="https://i.postimg.cc/13BOhN2T/banner-1-maya.png" alt="Quảng cáo bên trái" class="w-full h-auto object-cover">
+      </a>
+    </aside>
+
+    <main class="w-full max-w-2xl">
+      <div class="w-full mx-auto mt-4 text-right pr-4">
+        <div class="inline-flex rounded-md shadow-sm" role="group">
+          <button type="button" id="lang-vi" class="lang-btn px-4 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-l-lg hover:bg-gray-100 focus:z-10 focus:ring-2 focus:ring-blue-700">VI</button>
+          <button type="button" id="lang-en" class="lang-btn px-4 py-2 text-sm font-medium text-gray-900 bg-white border-t border-b border-gray-200 hover:bg-gray-100 focus:z-10 focus:ring-2 focus:ring-blue-700">EN</button>
+          <button type="button" id="lang-ja" class="lang-btn px-4 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-r-md hover:bg-gray-100 focus:z-10 focus:ring-2 focus:ring-blue-700">JA</button>
+        </div>
+      </div>
+
+      <div class="w-full mx-auto mt-2 mb-8 p-6 sm:p-8 bg-white rounded-xl shadow-lg">
+        <div class="text-center mb-6">
+          <img src="https://i.postimg.cc/yd4v4YHG/EZ-LOGO-31.png" alt="Company Logo" class="h-20 mx-auto mb-3">
+          <h2 class="text-2xl font-bold text-blue-600" data-lang-key="title">Khảo sát mức độ hài lòng</h2>
+          <p class="text-sm text-gray-500" data-lang-key="subtitle">Cảm ơn quý khách đã sử dụng dịch vụ cho thuê WiFi của chúng tôi!</p>
+        </div>
+
+        <form id="feedbackForm" class="space-y-6">
+          <div>
+            <label for="email" class="block font-medium text-gray-700" data-lang-key="email_label">Email của bạn</label>
+            <input type="email" id="email" name="email" required class="w-full p-3 border border-gray-300 rounded-lg mt-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500" data-lang-key="email_placeholder" placeholder="vidu@email.com">
+          </div>
+          
+          <div>
+            <label for="customer_name" class="block font-medium text-gray-700" data-lang-key="customer_name_label">Tên của bạn</label>
+            <input type="text" id="customer_name" name="customer_name" required class="w-full p-3 border border-gray-300 rounded-lg mt-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500" data-lang-key="customer_name_placeholder" placeholder="Nguyễn Văn A">
+          </div>
+
+          <div>
+            <label for="company_name" class="block font-medium text-gray-700" data-lang-key="company_name_label">Tên công ty (không bắt buộc)</label>
+            <input type="text" id="company_name" name="company_name" class="w-full p-3 border border-gray-300 rounded-lg mt-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500" data-lang-key="company_name_placeholder" placeholder="Công ty TNHH XYZ">
+          </div>
+          
+          <div>
+            <label for="usage_area" class="block font-medium text-gray-700" data-lang-key="usage_area_label">Quý khách đã sử dụng dịch vụ tại quốc gia nào?</label>
+            <input type="text" id="usage_area" name="usage_area" required class="w-full p-3 border border-gray-300 rounded-lg mt-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500" data-lang-key="usage_area_placeholder" placeholder="Ví dụ: Nhật Bản, Hàn Quốc...">
+          </div>
+
+          <div>
+            <label class="block font-medium text-gray-700" data-lang-key="q_wifi_quality">1. Chất lượng WiFi như thế nào?</label>
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 mt-2">
+              <label class="flex items-center p-3 border rounded-lg hover:bg-gray-50 cursor-pointer"><input type="radio" name="wifi_quality" value="Rất tốt" required class="mr-2"><span data-lang-key="option_very_good">Rất tốt</span></label>
+              <label class="flex items-center p-3 border rounded-lg hover:bg-gray-50 cursor-pointer"><input type="radio" name="wifi_quality" value="Tốt" class="mr-2"><span data-lang-key="option_good">Tốt</span></label>
+              <label class="flex items-center p-3 border rounded-lg hover:bg-gray-50 cursor-pointer"><input type="radio" name="wifi_quality" value="Trung bình" class="mr-2"><span data-lang-key="option_average">Trung bình</span></label>
+              <label class="flex items-center p-3 border rounded-lg hover:bg-gray-50 cursor-pointer"><input type="radio" name="wifi_quality" value="Kém" class="mr-2"><span data-lang-key="option_poor">Kém</span></label>
+            </div>
+          </div>
+          
+          <div>
+            <label class="block font-medium text-gray-700" data-lang-key="q_price">2. Bạn đánh giá thế nào về giá sản phẩm?</label>
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 mt-2">
+              <label class="flex items-center p-3 border rounded-lg hover:bg-gray-50 cursor-pointer"><input type="radio" name="price_rating" value="Rất hợp lý" required class="mr-2"><span data-lang-key="option_very_reasonable">Rất hợp lý</span></label>
+              <label class="flex items-center p-3 border rounded-lg hover:bg-gray-50 cursor-pointer"><input type="radio" name="price_rating" value="Hợp lý" class="mr-2"><span data-lang-key="option_reasonable">Hợp lý</span></label>
+              <label class="flex items-center p-3 border rounded-lg hover:bg-gray-50 cursor-pointer"><input type="radio" name="price_rating" value="Hơi cao" class="mr-2"><span data-lang-key="option_a_bit_high">Hơi cao</span></label>
+              <label class="flex items-center p-3 border rounded-lg hover:bg-gray-50 cursor-pointer"><input type="radio" name="price_rating" value="Cao" class="mr-2"><span data-lang-key="option_high">Cao</span></label>
+            </div>
+          </div>
+          
+          <div>
+            <label class="block font-medium text-gray-700" data-lang-key="q_service_vs_price">3. Chất lượng phục vụ so với giá cả?</label>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 mt-2">
+              <label class="flex items-center p-3 border rounded-lg hover:bg-gray-50 cursor-pointer"><input type="radio" name="service_vs_price" value="Vượt mong đợi" required class="mr-2"><span data-lang-key="option_exceeds">Vượt mong đợi</span></label>
+              <label class="flex items-center p-3 border rounded-lg hover:bg-gray-50 cursor-pointer"><input type="radio" name="service_vs_price" value="Tương xứng" class="mr-2"><span data-lang-key="option_matches">Tương xứng</span></label>
+              <label class="flex items-center p-3 border rounded-lg hover:bg-gray-50 cursor-pointer"><input type="radio" name="service_vs_price" value="Chưa tương xứng" class="mr-2"><span data-lang-key="option_not_match">Chưa tương xứng</span></label>
+            </div>
+          </div>
+
+          <div>
+            <label class="block font-medium text-gray-700" data-lang-key="q_delivery">4. Nhận/trả thiết bị có thuận tiện không?</label>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 mt-2">
+              <label class="flex items-center p-3 border rounded-lg hover:bg-gray-50 cursor-pointer"><input type="radio" name="delivery_process" value="Rất thuận tiện" required class="mr-2"><span data-lang-key="option_very_convenient">Rất thuận tiện</span></label>
+              <label class="flex items-center p-3 border rounded-lg hover:bg-gray-50 cursor-pointer"><input type="radio" name="delivery_process" value="Bình thường" class="mr-2"><span data-lang-key="option_normal">Bình thường</span></label>
+              <label class="flex items-center p-3 border rounded-lg hover:bg-gray-50 cursor-pointer"><input type="radio" name="delivery_process" value="Khó khăn" class="mr-2"><span data-lang-key="option_difficult">Khó khăn</span></label>
+            </div>
+          </div>
+
+          <div>
+            <label class="block font-medium text-gray-700" data-lang-key="q_tech_issue">5. Quý khách có gặp sự cố kỹ thuật không?</label>
+            <div class="flex space-x-4 mt-2">
+              <label class="flex items-center cursor-pointer"><input type="radio" name="technical_issue" value="Không" required class="mr-2"><span data-lang-key="option_no">Không</span></label>
+              <label class="flex items-center cursor-pointer"><input type="radio" name="technical_issue" value="Có" class="mr-2"><span data-lang-key="option_yes">Có</span></label>
+            </div>
+          </div>
+
+          <div id="technicalIssuesDetails" class="hidden pl-6 border-l-2 border-blue-200 space-y-3">
+            <label class="block font-medium text-gray-600 text-sm" data-lang-key="tech_issue_prompt">Vui lòng cho biết vấn đề bạn gặp phải:</label>
+            <div class="space-y-2">
+                <label class="flex items-center cursor-pointer"><input type="checkbox" name="issue_detail" value="Tốc độ chậm" class="mr-2"><span data-lang-key="issue_slow">Tốc độ chậm</span></label>
+                <label class="flex items-center cursor-pointer"><input type="checkbox" name="issue_detail" value="Mất kết nối" class="mr-2"><span data-lang-key="issue_disconnect">Mất kết nối thường xuyên</span></label>
+                <label class="flex items-center cursor-pointer"><input type="checkbox" name="issue_detail" value="Không kết nối được" class="mr-2"><span data-lang-key="issue_no_connect">Không kết nối được ban đầu</span></label>
+                <label class="flex items-center cursor-pointer"><input type="checkbox" name="issue_detail" value="Thiết bị không lên nguồn" class="mr-2"><span data-lang-key="issue_no_power">Thiết bị không lên nguồn / Sạc không vào</span></label>
+                <div>
+                  <label class="flex items-center cursor-pointer"><input type="checkbox" id="other_issue_checkbox" class="mr-2"><span data-lang-key="issue_other">Khác (vui lòng ghi rõ):</span></label>
+                  <textarea name="issue_detail_other" rows="2" class="w-full p-2 border rounded-lg mt-1" data-lang-key="issue_other_placeholder" placeholder="Mô tả sự cố khác..."></textarea>
+                </div>
+            </div>
+          </div>
+
+          <div>
+            <label class="block font-medium text-gray-700" data-lang-key="q_recommend">6. Quý khách có giới thiệu dịch vụ cho người khác không?</label>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 mt-2">
+              <label class="flex items-center p-3 border rounded-lg hover:bg-gray-50 cursor-pointer"><input type="radio" name="recommend" value="Chắc chắn có" required class="mr-2"><span data-lang-key="option_recommend_yes">Chắc chắn có</span></label>
+              <label class="flex items-center p-3 border rounded-lg hover:bg-gray-50 cursor-pointer"><input type="radio" name="recommend" value="Có thể" class="mr-2"><span data-lang-key="option_recommend_maybe">Có thể</span></label>
+              <label class="flex items-center p-3 border rounded-lg hover:bg-gray-50 cursor-pointer"><input type="radio" name="recommend" value="Không" class="mr-2"><span data-lang-key="option_recommend_no">Không</span></label>
+            </div>
+          </div>
+
+          <div>
+            <label class="block font-medium text-gray-700 text-center mb-2" data-lang-key="q_overall_rating">7. Đánh giá chung về dịch vụ của chúng tôi:</label>
+            <div class="star-rating">
+              <input type="radio" id="star5" name="rating" value="5" required/><label for="star5" title="5 stars">★</label>
+              <input type="radio" id="star4" name="rating" value="4"/><label for="star4" title="4 stars">★</label>
+              <input type="radio" id="star3" name="rating" value="3"/><label for="star3" title="3 stars">★</label>
+              <input type="radio" id="star2" name="rating" value="2"/><label for="star2" title="2 stars">★</label>
+              <input type="radio" id="star1" name="rating" value="1"/><label for="star1" title="1 star">★</label>
+            </div>
+          </div>
+          
+          <div>
+            <label class="block font-medium text-gray-700" data-lang-key="q_channel">8. Quý khách biết đến dịch vụ của chúng tôi qua kênh nào?</label>
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 mt-2">
+              <label class="flex items-center p-3 border rounded-lg hover:bg-gray-50 cursor-pointer"><input type="radio" name="channel" value="Facebook" required class="mr-2"><span data-lang-key="option_channel_facebook">Facebook</span></label>
+              <label class="flex items-center p-3 border rounded-lg hover:bg-gray-50 cursor-pointer"><input type="radio" name="channel" value="Google" class="mr-2"><span data-lang-key="option_channel_google">Google</span></label>
+              <label class="flex items-center p-3 border rounded-lg hover:bg-gray-50 cursor-pointer"><input type="radio" name="channel" value="Bạn bè giới thiệu" class="mr-2"><span data-lang-key="option_channel_friends">Bạn bè giới thiệu</span></label>
+              <label class="flex items-center p-3 border rounded-lg hover:bg-gray-50 cursor-pointer"><input type="radio" name="channel" value="Khác" class="mr-2"><span data-lang-key="option_channel_other">Khác</span></label>
+            </div>
+          </div>
+          
+          <div>
+            <label class="block font-medium text-gray-700" data-lang-key="q_comment">9. Góp ý thêm (nếu có):</label>
+            <textarea name="comment" rows="4" class="w-full p-3 border rounded-lg mt-2" data-lang-key="comment_placeholder" placeholder="Ý kiến của bạn..."></textarea>
+          </div>
+          
+          <div class="text-center pt-4">
+            <p class="text-red-600 font-bold mb-4 text-lg" data-lang-key="promo_text">GIẢM 10% CHO LẦN ĐẶT HÀNG TIẾP THEO!</p>
+            <button type="submit" id="submitButton" class="bg-blue-600 text-white px-8 py-3 rounded-lg hover:bg-blue-700 transition-colors font-semibold text-lg" data-lang-key="submit_button">
+              Gửi phản hồi
+            </button>
+          </div>
+
+          <p id="status" class="text-center font-medium h-6"></p>
+        </form>
+      </div>
+
+      <footer class="bg-white text-gray-600 text-sm mt-8 py-6 rounded-xl shadow-lg mb-8">
+        <div class="max-w-4xl mx-auto px-4">
+            <div class="text-center mb-4">
+                <h3 class="font-bold text-gray-800">CÔNG TY TNHH MAYA VIỆT NAM</h3>
+                <p class="text-xs text-gray-500">MAYA VIETNAM COMPANY LIMITED</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-center md:text-left">
+                <div>
+                    <h4 class="font-semibold text-gray-700 mb-1" data-lang-key="footer_address">Địa chỉ</h4>
+                    <p>Phòng 1630, tầng 16, tòa nhà Daeha Business Center, 360 Kim Mã, P. Ngọc Khánh, Q. Ba Đình, Hà Nội</p>
+                    <p class="text-xs text-gray-500">Room 1630, 16th floor, Daeha Business Center, 360 Kim Ma, Ngoc Khanh Ward, Ba Dinh Dist., Hanoi</p>
+                </div>
+                <div>
+                    <h4 class="font-semibold text-gray-700 mb-1" data-lang-key="footer_hotline">Hotline</h4>
+                    <p><i class="fas fa-phone-alt mr-2"></i>0962 000 650 (<span data-lang-key="lang_vi">Tiếng Việt</span>)</p>
+                    <p><i class="fas fa-phone-alt mr-2"></i>0365 399 288 (<span data-lang-key="lang_ja">Tiếng Nhật</span>)</p>
+                </div>
+            </div>
+        </div>
+      </footer>
+    </main>
+
+    <aside class="hidden xl:block w-48 flex-shrink-0 pt-24">
+      <a href="https://global-ez.com/" target="_blank" class="block shadow-lg rounded-lg overflow-hidden hover:opacity-90 transition-opacity">
+        <img src="https://i.postimg.cc/13BOhN2T/banner-1-maya.png" alt="Quảng cáo bên phải" class="w-full h-auto object-cover">
+      </a>
+    </aside>
   </div>
 
-  <div class="max-w-2xl mx-auto mt-2 mb-8 p-6 sm:p-8 bg-white rounded-xl shadow-lg">
-    <div class="text-center mb-6">
-      <img src="https://i.postimg.cc/yd4v4YHG/EZ-LOGO-31.png" alt="Company Logo" class="h-20 mx-auto mb-3">
-      <h2 class="text-2xl font-bold text-blue-600" data-lang-key="title">Khảo sát mức độ hài lòng</h2>
-      <p class="text-sm text-gray-500" data-lang-key="subtitle">Cảm ơn quý khách đã sử dụng dịch vụ cho thuê WiFi của chúng tôi!</p>
-    </div>
-
-    <form id="feedbackForm" class="space-y-6">
-      <div>
-        <label for="email" class="block font-medium text-gray-700" data-lang-key="email_label">Email của bạn</label>
-        <input type="email" id="email" name="email" required class="w-full p-3 border border-gray-300 rounded-lg mt-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500" data-lang-key="email_placeholder" placeholder="vidu@email.com">
-      </div>
-      
-      <div>
-        <label for="usage_area" class="block font-medium text-gray-700" data-lang-key="usage_area_label">Quý khách đã sử dụng dịch vụ tại quốc gia nào?</label>
-        <input type="text" id="usage_area" name="usage_area" required class="w-full p-3 border border-gray-300 rounded-lg mt-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500" data-lang-key="usage_area_placeholder" placeholder="Ví dụ: Nhật Bản, Hàn Quốc...">
-      </div>
-
-      <div>
-        <label class="block font-medium text-gray-700" data-lang-key="q_wifi_quality">1. Chất lượng WiFi như thế nào?</label>
-        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 mt-2">
-          <label class="flex items-center p-3 border rounded-lg hover:bg-gray-50 cursor-pointer"><input type="radio" name="wifi_quality" value="Rất tốt" required class="mr-2"><span data-lang-key="option_very_good">Rất tốt</span></label>
-          <label class="flex items-center p-3 border rounded-lg hover:bg-gray-50 cursor-pointer"><input type="radio" name="wifi_quality" value="Tốt" class="mr-2"><span data-lang-key="option_good">Tốt</span></label>
-          <label class="flex items-center p-3 border rounded-lg hover:bg-gray-50 cursor-pointer"><input type="radio" name="wifi_quality" value="Trung bình" class="mr-2"><span data-lang-key="option_average">Trung bình</span></label>
-          <label class="flex items-center p-3 border rounded-lg hover:bg-gray-50 cursor-pointer"><input type="radio" name="wifi_quality" value="Kém" class="mr-2"><span data-lang-key="option_poor">Kém</span></label>
-        </div>
-      </div>
-      
-      <div>
-        <label class="block font-medium text-gray-700" data-lang-key="q_price">2. Bạn đánh giá thế nào về giá sản phẩm?</label>
-        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 mt-2">
-          <label class="flex items-center p-3 border rounded-lg hover:bg-gray-50 cursor-pointer"><input type="radio" name="price_rating" value="Rất hợp lý" required class="mr-2"><span data-lang-key="option_very_reasonable">Rất hợp lý</span></label>
-          <label class="flex items-center p-3 border rounded-lg hover:bg-gray-50 cursor-pointer"><input type="radio" name="price_rating" value="Hợp lý" class="mr-2"><span data-lang-key="option_reasonable">Hợp lý</span></label>
-          <label class="flex items-center p-3 border rounded-lg hover:bg-gray-50 cursor-pointer"><input type="radio" name="price_rating" value="Hơi cao" class="mr-2"><span data-lang-key="option_a_bit_high">Hơi cao</span></label>
-          <label class="flex items-center p-3 border rounded-lg hover:bg-gray-50 cursor-pointer"><input type="radio" name="price_rating" value="Cao" class="mr-2"><span data-lang-key="option_high">Cao</span></label>
-        </div>
-      </div>
-      
-      <div>
-        <label class="block font-medium text-gray-700" data-lang-key="q_service_vs_price">3. Chất lượng phục vụ so với giá cả?</label>
-        <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 mt-2">
-          <label class="flex items-center p-3 border rounded-lg hover:bg-gray-50 cursor-pointer"><input type="radio" name="service_vs_price" value="Vượt mong đợi" required class="mr-2"><span data-lang-key="option_exceeds">Vượt mong đợi</span></label>
-          <label class="flex items-center p-3 border rounded-lg hover:bg-gray-50 cursor-pointer"><input type="radio" name="service_vs_price" value="Tương xứng" class="mr-2"><span data-lang-key="option_matches">Tương xứng</span></label>
-          <label class="flex items-center p-3 border rounded-lg hover:bg-gray-50 cursor-pointer"><input type="radio" name="service_vs_price" value="Chưa tương xứng" class="mr-2"><span data-lang-key="option_not_match">Chưa tương xứng</span></label>
-        </div>
-      </div>
-
-      <div>
-        <label class="block font-medium text-gray-700" data-lang-key="q_delivery">4. Nhận/trả thiết bị có thuận tiện không?</label>
-        <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 mt-2">
-          <label class="flex items-center p-3 border rounded-lg hover:bg-gray-50 cursor-pointer"><input type="radio" name="delivery_process" value="Rất thuận tiện" required class="mr-2"><span data-lang-key="option_very_convenient">Rất thuận tiện</span></label>
-          <label class="flex items-center p-3 border rounded-lg hover:bg-gray-50 cursor-pointer"><input type="radio" name="delivery_process" value="Bình thường" class="mr-2"><span data-lang-key="option_normal">Bình thường</span></label>
-          <label class="flex items-center p-3 border rounded-lg hover:bg-gray-50 cursor-pointer"><input type="radio" name="delivery_process" value="Khó khăn" class="mr-2"><span data-lang-key="option_difficult">Khó khăn</span></label>
-        </div>
-      </div>
-
-      <div>
-        <label class="block font-medium text-gray-700" data-lang-key="q_tech_issue">5. Quý khách có gặp sự cố kỹ thuật không?</label>
-        <div class="flex space-x-4 mt-2">
-          <label class="flex items-center cursor-pointer"><input type="radio" name="technical_issue" value="Không" required class="mr-2"><span data-lang-key="option_no">Không</span></label>
-          <label class="flex items-center cursor-pointer"><input type="radio" name="technical_issue" value="Có" class="mr-2"><span data-lang-key="option_yes">Có</span></label>
-        </div>
-      </div>
-
-      <div id="technicalIssuesDetails" class="hidden pl-6 border-l-2 border-blue-200 space-y-3">
-        <label class="block font-medium text-gray-600 text-sm" data-lang-key="tech_issue_prompt">Vui lòng cho biết vấn đề bạn gặp phải:</label>
-        <div class="space-y-2">
-            <label class="flex items-center cursor-pointer"><input type="checkbox" name="issue_detail" value="Tốc độ chậm" class="mr-2"><span data-lang-key="issue_slow">Tốc độ chậm</span></label>
-            <label class="flex items-center cursor-pointer"><input type="checkbox" name="issue_detail" value="Mất kết nối" class="mr-2"><span data-lang-key="issue_disconnect">Mất kết nối thường xuyên</span></label>
-            <label class="flex items-center cursor-pointer"><input type="checkbox" name="issue_detail" value="Không kết nối được" class="mr-2"><span data-lang-key="issue_no_connect">Không kết nối được ban đầu</span></label>
-            <label class="flex items-center cursor-pointer"><input type="checkbox" name="issue_detail" value="Thiết bị không lên nguồn" class="mr-2"><span data-lang-key="issue_no_power">Thiết bị không lên nguồn / Sạc không vào</span></label>
-            <div>
-              <label class="flex items-center cursor-pointer"><input type="checkbox" id="other_issue_checkbox" class="mr-2"><span data-lang-key="issue_other">Khác (vui lòng ghi rõ):</span></label>
-              <textarea name="issue_detail_other" rows="2" class="w-full p-2 border rounded-lg mt-1" data-lang-key="issue_other_placeholder" placeholder="Mô tả sự cố khác..."></textarea>
-            </div>
-        </div>
-      </div>
-
-      <div>
-        <label class="block font-medium text-gray-700" data-lang-key="q_recommend">6. Quý khách có giới thiệu dịch vụ cho người khác không?</label>
-        <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 mt-2">
-          <label class="flex items-center p-3 border rounded-lg hover:bg-gray-50 cursor-pointer"><input type="radio" name="recommend" value="Chắc chắn có" required class="mr-2"><span data-lang-key="option_recommend_yes">Chắc chắn có</span></label>
-          <label class="flex items-center p-3 border rounded-lg hover:bg-gray-50 cursor-pointer"><input type="radio" name="recommend" value="Có thể" class="mr-2"><span data-lang-key="option_recommend_maybe">Có thể</span></label>
-          <label class="flex items-center p-3 border rounded-lg hover:bg-gray-50 cursor-pointer"><input type="radio" name="recommend" value="Không" class="mr-2"><span data-lang-key="option_recommend_no">Không</span></label>
-        </div>
-      </div>
-
-      <div>
-        <label class="block font-medium text-gray-700 text-center mb-2" data-lang-key="q_overall_rating">7. Đánh giá chung về dịch vụ của chúng tôi:</label>
-        <div class="star-rating">
-          <input type="radio" id="star5" name="rating" value="5" required/><label for="star5" title="5 stars">★</label>
-          <input type="radio" id="star4" name="rating" value="4"/><label for="star4" title="4 stars">★</label>
-          <input type="radio" id="star3" name="rating" value="3"/><label for="star3" title="3 stars">★</label>
-          <input type="radio" id="star2" name="rating" value="2"/><label for="star2" title="2 stars">★</label>
-          <input type="radio" id="star1" name="rating" value="1"/><label for="star1" title="1 star">★</label>
-        </div>
-      </div>
-      
-      <div>
-        <label class="block font-medium text-gray-700" data-lang-key="q_channel">8. Quý khách biết đến dịch vụ của chúng tôi qua kênh nào?</label>
-        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 mt-2">
-          <label class="flex items-center p-3 border rounded-lg hover:bg-gray-50 cursor-pointer"><input type="radio" name="channel" value="Facebook" required class="mr-2"><span data-lang-key="option_channel_facebook">Facebook</span></label>
-          <label class="flex items-center p-3 border rounded-lg hover:bg-gray-50 cursor-pointer"><input type="radio" name="channel" value="Google" class="mr-2"><span data-lang-key="option_channel_google">Google</span></label>
-          <label class="flex items-center p-3 border rounded-lg hover:bg-gray-50 cursor-pointer"><input type="radio" name="channel" value="Bạn bè giới thiệu" class="mr-2"><span data-lang-key="option_channel_friends">Bạn bè giới thiệu</span></label>
-          <label class="flex items-center p-3 border rounded-lg hover:bg-gray-50 cursor-pointer"><input type="radio" name="channel" value="Khác" class="mr-2"><span data-lang-key="option_channel_other">Khác</span></label>
-        </div>
-      </div>
-      
-      <div>
-        <label class="block font-medium text-gray-700" data-lang-key="q_comment">9. Góp ý thêm (nếu có):</label>
-        <textarea name="comment" rows="4" class="w-full p-3 border rounded-lg mt-2" data-lang-key="comment_placeholder" placeholder="Ý kiến của bạn..."></textarea>
-      </div>
-
-      
-      <div class="text-center pt-4">
-        <button type="submit" id="submitButton" class="bg-blue-600 text-white px-8 py-3 rounded-lg hover:bg-blue-700 transition-colors font-semibold text-lg" data-lang-key="submit_button">
-          Gửi phản hồi
-        </button>
-      </div>
-
-      <p id="status" class="text-center font-medium h-6"></p>
-    </form>
-  </div>
-
-  <footer class="bg-white text-gray-600 text-sm mt-8 py-6">
-    <div class="max-w-4xl mx-auto px-4">
-        <div class="text-center mb-4">
-            <h3 class="font-bold text-gray-800">CÔNG TY TNHH MAYA VIỆT NAM</h3>
-            <p class="text-xs text-gray-500">MAYA VIETNAM COMPANY LIMITED</p>
-        </div>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-center md:text-left">
-            <div>
-                <h4 class="font-semibold text-gray-700 mb-1" data-lang-key="footer_address">Địa chỉ</h4>
-                <p>Phòng 1630, tầng 16, tòa nhà Daeha Business Center, 360 Kim Mã, P. Ngọc Khánh, Q. Ba Đình, Hà Nội</p>
-                <p class="text-xs text-gray-500">Room 1630, 16th floor, Daeha Business Center, 360 Kim Ma, Ngoc Khanh Ward, Ba Dinh Dist., Hanoi</p>
-            </div>
-            <div>
-                <h4 class="font-semibold text-gray-700 mb-1" data-lang-key="footer_hotline">Hotline</h4>
-                <p><i class="fas fa-phone-alt mr-2"></i>0962 000 650 (<span data-lang-key="lang_vi">Tiếng Việt</span>)</p>
-                <p><i class="fas fa-phone-alt mr-2"></i>0365 399 288 (<span data-lang-key="lang_ja">Tiếng Nhật</span>)</p>
-            </div>
-        </div>
-    </div>
-  </footer>
 
   <script>
     // --- DICTIONARY FOR LANGUAGES ---
@@ -180,6 +208,10 @@
         subtitle: "Cảm ơn quý khách đã sử dụng dịch vụ cho thuê WiFi của chúng tôi!",
         email_label: "Email của bạn",
         email_placeholder: "vidu@email.com",
+        customer_name_label: "Tên của bạn",
+        customer_name_placeholder: "Nguyễn Văn A",
+        company_name_label: "Tên công ty (không bắt buộc)",
+        company_name_placeholder: "Công ty TNHH XYZ",
         usage_area_label: "Quý khách đã sử dụng dịch vụ tại quốc gia nào?",
         usage_area_placeholder: "Ví dụ: Nhật Bản, Hàn Quốc...",
         q_wifi_quality: "1. Chất lượng WiFi như thế nào?",
@@ -222,6 +254,7 @@
         option_channel_other: "Khác",
         q_comment: "9. Góp ý thêm (nếu có):",
         comment_placeholder: "Ý kiến của bạn...",
+        promo_text: "GIẢM 10% CHO LẦN ĐẶT HÀNG TIẾP THEO!",
         submit_button: "Gửi phản hồi",
         footer_address: "Địa chỉ",
         footer_hotline: "Hotline",
@@ -237,6 +270,10 @@
         subtitle: "Thank you for using our WiFi rental service!",
         email_label: "Your Email",
         email_placeholder: "example@email.com",
+        customer_name_label: "Your Name",
+        customer_name_placeholder: "John Doe",
+        company_name_label: "Company Name (optional)",
+        company_name_placeholder: "XYZ Company Ltd.",
         usage_area_label: "In which country did you use the service?",
         usage_area_placeholder: "E.g., Japan, South Korea...",
         q_wifi_quality: "1. How was the WiFi quality?",
@@ -279,6 +316,7 @@
         option_channel_other: "Other",
         q_comment: "9. Any additional comments?",
         comment_placeholder: "Your feedback...",
+        promo_text: "GET 10% OFF YOUR NEXT ORDER!",
         submit_button: "Submit Feedback",
         footer_address: "Address",
         footer_hotline: "Hotline",
@@ -294,6 +332,10 @@
         subtitle: "WiFiレンタルサービスをご利用いただき、誠にありがとうございます！",
         email_label: "メールアドレス",
         email_placeholder: "example@email.com",
+        customer_name_label: "お名前",
+        customer_name_placeholder: "山田太郎",
+        company_name_label: "会社名（任意）",
+        company_name_placeholder: "株式会社XYZ",
         usage_area_label: "どちらの国でサービスを利用しましたか？",
         usage_area_placeholder: "例：日本、韓国など",
         q_wifi_quality: "1. WiFiの品質はいかがでしたか？",
@@ -336,6 +378,7 @@
         option_channel_other: "その他",
         q_comment: "9. その他のご意見・ご感想:",
         comment_placeholder: "ご意見をお聞かせください...",
+        promo_text: "次回のご注文が10％割引になります！",
         submit_button: "送信する",
         footer_address: "住所",
         footer_hotline: "ホットライン",
@@ -387,7 +430,7 @@
     const technicalIssuesDetails = document.getElementById('technicalIssuesDetails');
     technicalIssueRadios.forEach(radio => {
       radio.addEventListener('change', function() {
-        if (this.value === 'Có') { // "Yes" in Vietnamese
+        if (this.value === 'Có' || this.value === 'Yes' || this.value === 'はい') {
           technicalIssuesDetails.classList.remove('hidden');
         } else {
           technicalIssuesDetails.classList.add('hidden');
@@ -414,38 +457,28 @@
       status.className = "text-center font-medium h-6 text-blue-600";
       submitButton.disabled = true;
 
-      // Create a FormData object from the form
       const requestFormData = new FormData(form);
       
-      // Process the technical issue details into a single field
       const issueDetails = [];
       document.querySelectorAll('input[name="issue_detail"]:checked').forEach(checkbox => {
         issueDetails.push(checkbox.value);
       });
       const otherDetail = requestFormData.get('issue_detail_other');
       if (otherDetail && otherDetail.trim() !== '') {
-        // We use the English prefix "Other:" for consistency in data processing, 
-        // but you can change it if needed.
         issueDetails.push(`Khác: ${otherDetail.trim()}`);
       }
-      // Set the consolidated details into a single field for the Google Sheet
       requestFormData.set('technical_issue_details', issueDetails.join('; '));
       
-      // Append the submission language
       requestFormData.append('language', lang);
       
-      // Delete the original, now redundant, fields
       requestFormData.delete('issue_detail');
       requestFormData.delete('issue_detail_other');
       
-      // *** IMPORTANT: This is the URL of your Google Apps Script. ***
-      // The script at this URL must be correctly deployed as a Web App  
-      // with "Execute as: Me" and "Who has access: Anyone".
-      const url = "https://script.google.com/macros/s/AKfycbz7uCS7uqaReMUGIWIFcaaGP0enLyTp5IkkunuRHVs_nVKkALL9jWtvj9T6uxrpQXo/exec";
+      const url = "https://script.google.com/macros/s/AKfycbylHCes-0UOFDJ6ZOu7-qYCE_5szKSNQ3AxaZXzpC2n7ghX5Y5sAXQjwI23PjKWBSw/exec";
 
       fetch(url, {
         method: "POST",
-        body: requestFormData, // Send the FormData object directly
+        body: requestFormData,
       })
       .then(response => response.json())
       .then(res => {
@@ -455,10 +488,8 @@
           status.innerText = translations[lang].status_success;
           status.className = "text-center font-medium h-6 text-green-600";
           document.querySelectorAll('.star-rating input[type="radio"]').forEach(radio => radio.checked = false);
-          // Re-apply language to restore placeholders after reset
           setLanguage(lang);
         } else {
-          // Throw an error to be handled by the .catch() block
           throw new Error(res.message || 'An unknown error occurred on the server.');
         }
       })
@@ -468,11 +499,9 @@
           console.error("Fetch Error:", err);
       })
       .finally(() => {
-          // Re-enable the submit button in any case
           submitButton.disabled = false;
       });
     });
   </script>
 </body>
 </html>
-```
