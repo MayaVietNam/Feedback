@@ -23,9 +23,9 @@
 
   <div class="flex justify-center gap-8 px-4">
     
-    <aside class="hidden xl:block w-64 flex-shrink-0 pt-24 sticky top-24 self-start">
-      <a href="https://global-ez.com/" target="_blank" class="block shadow-lg rounded-lg overflow-hidden hover:opacity-90 transition-opacity bg-white">
-        <img src="https://i.postimg.cc/7bvfKbyJ/Modern-Fashion-Sale-Retractable-Banner.png" alt="Quảng cáo bên trái" class="w-full h-auto object-contain" onerror="this.onerror=null;this.src='https://placehold.co/256x600/cccccc/ffffff?text=MAYA+VIETNAM';">
+    <aside class="hidden xl:block w-64 flex-shrink-0 sticky top-0 h-screen py-24">
+      <a href="https://global-ez.com/" target="_blank" class="block shadow-lg rounded-lg overflow-hidden hover:opacity-90 transition-opacity bg-white h-full">
+        <img src="https://i.postimg.cc/7bvfKbyJ/Modern-Fashion-Sale-Retractable-Banner.png" alt="Quảng cáo bên trái" class="w-full h-full object-contain" onerror="this.onerror=null;this.src='https://placehold.co/256x600/cccccc/ffffff?text=MAYA+VIETNAM';">
       </a>
     </aside>
 
@@ -40,7 +40,6 @@
 
       <div class="w-full mx-auto mt-2 mb-8 p-6 sm:p-8 bg-white rounded-xl shadow-lg">
         <div class="text-center mb-6">
-          <!-- UPDATE: Changed the logo source to the one provided by the user -->
           <img src="https://i.postimg.cc/XJJLb1Bc/EZ-LOGO-10.png" alt="Company Logo" class="h-20 mx-auto mb-3" onerror="this.onerror=null;this.src='https://placehold.co/200x80/ffffff/000000?text=Logo';">
           <h2 class="text-2xl font-bold text-blue-600" data-lang-key="title">Khảo sát mức độ hài lòng</h2>
           <p class="text-sm text-gray-500" data-lang-key="subtitle">Cảm ơn quý khách đã sử dụng dịch vụ cho thuê WiFi của chúng tôi!</p>
@@ -176,6 +175,8 @@
       <footer class="bg-white text-gray-600 text-sm mt-8 py-6 rounded-xl shadow-lg mb-8">
         <div class="max-w-4xl mx-auto px-4">
             <div class="text-center mb-4">
+                <!-- UPDATE: Re-uploaded logo to a new stable link to fix display issue -->
+                <img src="https://i.postimg.cc/WbnQTChx/LOGO-MAYA-VIETNAM.png" alt="Maya Vietnam Logo" class="h-12 mx-auto mb-2" onerror="this.onerror=null;this.src='https://placehold.co/200x48/ffffff/000000?text=MAYA';">
                 <h3 class="font-bold text-gray-800">CÔNG TY TNHH MAYA VIỆT NAM</h3>
                 <p class="text-xs text-gray-500">MAYA VIETNAM COMPANY LIMITED</p>
             </div>
@@ -195,10 +196,10 @@
       </footer>
     </main>
 
-    <aside class="hidden xl:block w-64 flex-shrink-0 pt-24 sticky top-24 self-start">
-      <a href="https://global-ez.com/" target="_blank" class="block shadow-lg rounded-lg overflow-hidden hover:opacity-90 transition-opacity bg-white">
-        <img src="https://i.postimg.cc/PqF3PkjF/Modern-Fashion-Sale-Retractable-Banner-1.png" alt="Quảng cáo bên phải" class="w-full h-auto object-contain" onerror="this.onerror=null;this.src='https://placehold.co/256x600/cccccc/ffffff?text=MAYA+VIETNAM';">
-      </a>
+    <aside class="hidden xl:block w-64 flex-shrink-0 sticky top-0 h-screen py-24">
+        <a href="https://global-ez.com/" target="_blank" class="block shadow-lg rounded-lg overflow-hidden hover:opacity-90 transition-opacity bg-white h-full">
+            <img src="https://i.postimg.cc/PqF3PkjF/Modern-Fashion-Sale-Retractable-Banner-1.png" alt="Quảng cáo bên phải" class="w-full h-full object-contain" onerror="this.onerror=null;this.src='https://placehold.co/256x600/cccccc/ffffff?text=MAYA+VIETNAM';">
+        </a>
     </aside>
   </div>
 
@@ -460,9 +461,6 @@
       status.className = "text-center font-medium h-6 text-blue-600";
       submitButton.disabled = true;
 
-      // --- FIX: CONVERT FORM DATA TO JSON OBJECT ---
-      // The error "Cannot read properties of undefined (reading 'contents')" suggests the
-      // Google Apps Script backend expects a JSON payload, not FormData.
       const formData = new FormData(form);
       const data = Object.fromEntries(formData.entries());
 
@@ -476,35 +474,30 @@
           issueDetails.push(`Khác: ${otherDetail.trim()}`);
       }
       
-      // Add the combined details to our data object
       data.technical_issue_details = issueDetails.join('; ');
 
-      // Clean up the fields we have already processed
       delete data.issue_detail;
       delete data.issue_detail_other;
       
-      // Add language information
       data.language = lang;
       
       const url = "https://script.google.com/macros/s/AKfycbyPGrnlcE2Atm5_UaB5BEEpNNsC_6eFLHLIog1zaqnsGNJ3FC0aHUGo6ywVFPFeKTPA/exec";
 
       fetch(url, {
         method: "POST",
-        mode: 'no-cors', // Use no-cors for this type of request to avoid CORS errors
+        mode: 'no-cors', 
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(data),
       })
       .then(response => {
-        // With no-cors, we can't inspect the response, but we can assume success
-        // and let the backend handle the data. The form will reset as if successful.
         form.reset();
         technicalIssuesDetails.classList.add('hidden');
         status.innerText = translations[lang].status_success;
         status.className = "text-center font-medium h-6 text-green-600";
         document.querySelectorAll('.star-rating input[type="radio"]').forEach(radio => radio.checked = false);
-        setLanguage(lang); // Ensure form text resets to the correct language
+        setLanguage(lang);
       })
       .catch(err => {
           status.innerText = translations[lang].status_fail;
@@ -512,7 +505,6 @@
           console.error("Fetch Error:", err);
       })
       .finally(() => {
-          // Re-enable the button regardless of success or failure
           submitButton.disabled = false;
       });
     });
